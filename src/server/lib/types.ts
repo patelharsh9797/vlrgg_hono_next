@@ -10,3 +10,12 @@ export interface AppBindings {
 export type AppOpenAPI = OpenAPIHono<AppBindings>;
 
 export type AppRouteHandler<R extends RouteConfig> = RouteHandler<R, AppBindings>;
+
+
+export type TeamType = {
+    id: string;
+    url: string;
+    name: string;
+    img: string;
+    country: string;
+}

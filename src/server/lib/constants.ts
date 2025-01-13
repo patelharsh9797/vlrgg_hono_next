@@ -1,6 +1,8 @@
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 import { createMessageObjectSchema } from "stoker/openapi/schemas";
 
+export const vlrgg_url = "https://www.vlr.gg";
+
 export const ZOD_ERROR_MESSAGES = {
     REQUIRED: "Required",
     EXPECTED_NUMBER: "Expected number, received nan",

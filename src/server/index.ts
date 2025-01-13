@@ -1,15 +1,16 @@
 import createApp from "@/server/lib/create-app";
 
 import index from "@/server/routes/index.route";
-import configureOpenAPI from "./lib/configure-open-api";
+import teams from "@/server/routes/teams/teams.index";
+
 import env from "@/env";
-// import tasks from "@/routes/tasks/tasks.index";
+import configureOpenAPI from "./lib/configure-open-api";
 
 const hono_server = createApp(env.API_BASE_PATH);
 
 configureOpenAPI(hono_server);
 
-const routes = [index];
+const routes = [index, teams];
 
 routes.forEach((route) => hono_server.route("/", route));
 
