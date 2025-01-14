@@ -8,10 +8,10 @@ import type { ListRoute, GetOneRoute } from "./teams.routes";
 import { getTeams, getTeamById } from "./teams.service";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
-  const req_param = c.req.valid("param");
+  const req_param = c.req.valid("query");
 
-  const page = req_param.page || 1;
-  const limit = req_param.limit || 10;
+  const page = parseInt(req_param.page || "1");
+  const limit = parseInt(req_param.limit || "10");
   const pagination = {
     page,
     limit,

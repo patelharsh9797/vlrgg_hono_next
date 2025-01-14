@@ -46,8 +46,8 @@ export const regionAliases: Record<RegionKey, string> = {
 
 
 export const teamRequestSchema = z.object({
-    page: z.number().default(1),
-    limit: z.number().default(10),
+    page: z.string().default("1"),
+    limit: z.string().default("10"),
     region: z.enum(regionAvailable).default("all"),
 })
 

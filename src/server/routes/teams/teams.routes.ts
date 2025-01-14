@@ -12,7 +12,8 @@ export const list = createRoute({
     path: "/teams",
     method: "get",
     request: {
-        params: teamRequestSchema,
+        query: teamRequestSchema,
+        // params: teamRequestSchema,
         // body: jsonContentRequired(teamRequestSchema, "The Team request"),
     },
     responses: {
