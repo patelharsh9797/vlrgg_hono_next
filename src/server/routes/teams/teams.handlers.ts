@@ -1,22 +1,23 @@
-
 import type { AppRouteHandler } from "@/server/lib/types";
-import { regionAliases } from "@/server/lib/zod-types";
+import { regionAliases, TeamViewResponsetype } from "@/server/lib/zod-types";
 
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import type { ListRoute, } from "./teams.routes";
-import { getTeams } from "./teams.service";
+import type { ListRoute, GetOneRoute } from "./teams.routes";
+import { getTeams, getTeamById } from "./teams.service";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
-  const req_body = c.req.valid("json")
+  const req_param = c.req.valid("param");
 
+  const page = req_param.page || 1;
+  const limit = req_param.limit || 10;
   const pagination = {
-    page: req_body.page || 1,
-    limit: req_body.limit || 10,
+    page,
+    limit,
   };
 
-  const regionQuery = req_body.region || "all";
+  const regionQuery = req_param.region || "all";
   const region = regionAliases[regionQuery] || regionQuery;
 
   try {
@@ -25,73 +26,57 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
       pagination: { totalElements, totalPages, hasNextPage },
     } = await getTeams(pagination, region);
 
-    return c.json({
-      region: regionQuery,
-      size: teams.length,
-      pagination: {
-        page: pagination.page,
-        limit: pagination.limit,
-        totalElements: totalElements,
-        totalPages: totalPages,
-        hasNextPage: hasNextPage,
+    return c.json(
+      {
+        region: regionQuery,
+        size: teams.length,
+        pagination: {
+          page,
+          limit,
+          totalElements,
+          totalPages,
+          hasNextPage,
+        },
+        data: teams,
       },
-      data: teams
-    }, HttpStatusCodes.OK)
-
+      HttpStatusCodes.OK,
+    );
   } catch (error) {
-    return c.json({ message: HttpStatusPhrases.INTERNAL_SERVER_ERROR }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    console.log("Server Error: ", error);
+    return c.json(
+      { message: HttpStatusPhrases.INTERNAL_SERVER_ERROR },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+    );
   }
-
 };
 
-// export const create: AppRouteHandler<CreateRoute> = async (c) => {
-//     const task = c.req.valid("json");
+export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
+  // const id = c.req.param("id");
+  const { id } = c.req.valid("param");
 
-//     const [inserted] = await db.insert(tasks).values(task).returning();
+  try {
+    const data = await getTeamById(id);
 
-//     return c.json(inserted, HttpStatusCodes.OK);
-// };
+    if (data.isNotfound) {
+      return c.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND)
+    }
 
-// export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
-//     // const id = c.req.param("id");
-//     const { id } = c.req.valid("param");
+    const json_data: TeamViewResponsetype = {
+      info: data['info'],
+      players: data['players'],
+      staff: data['staff'],
+      inactive: data['inactive'],
+      events: data['events'],
+      results: data['results'],
+      upcoming: data['upcoming'],
+    }
 
-//     const task = await db.query.tasks.findFirst({
-//         where: (task, { eq }) => eq(task.id, id),
-//     });
-
-//     if (!task) {
-//         return c.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
-//     }
-
-//     return c.json(task, HttpStatusCodes.OK);
-// };
-
-// export const patch: AppRouteHandler<PatchRoute> = async (c) => {
-//     const { id } = c.req.valid("param");
-//     const updates = c.req.valid("json");
-
-//     const [updatedTask] = await db.update(tasks)
-//         .set(updates)
-//         .where(eq(tasks.id, id))
-//         .returning();
-
-//     if (!updatedTask) {
-//         return c.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
-//     }
-
-//     return c.json(updatedTask, HttpStatusCodes.OK);
-// };
-
-// export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
-//     const { id } = c.req.valid("param");
-
-//     const result = await db.delete(tasks)
-//         .where(eq(tasks.id, id));
-
-//     if (result.rowsAffected === 0) {
-//         return c.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
-//     }
-
-//     return c.body(null, HttpStatusCodes.NO_CONTENT);
-// };
+    return c.json(json_data, HttpStatusCodes.OK);
+  } catch (error) {
+    console.log("Server Error: ", error);
+    return c.json(
+      { message: HttpStatusPhrases.INTERNAL_SERVER_ERROR },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+    );
+  }
+};
