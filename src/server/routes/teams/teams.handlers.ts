@@ -51,7 +51,6 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
-  // const id = c.req.param("id");
   const { id } = c.req.valid("param");
 
   try {

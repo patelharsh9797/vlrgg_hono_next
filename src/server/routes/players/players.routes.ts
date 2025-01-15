@@ -3,16 +3,16 @@ import * as HTTPStatusCodes from "stoker/http-status-codes";
 import { jsonContent } from "stoker/openapi/helpers";
 import { createErrorSchema } from "stoker/openapi/schemas";
 import { notFoundSchema } from "@/server/lib/constants";
-import { idParamsSchema, teamRequestSchema, teamResponseSchema, teamViewResponseSchema } from "@/server/lib/zod-types";
+import { idParamsSchema, playersRequestSchema, teamRequestSchema, teamResponseSchema, teamViewResponseSchema } from "@/server/lib/zod-types";
 
-const tags = ["teams"];
+const tags = ["players"];
 
 export const list = createRoute({
     tags,
-    path: "/teams",
+    path: "/players",
     method: "get",
     request: {
-        query: teamRequestSchema,
+        query: playersRequestSchema,
     },
     responses: {
         [HTTPStatusCodes.OK]: jsonContent(teamResponseSchema, "The List Of Teams"),
@@ -24,7 +24,7 @@ export const list = createRoute({
 
 export const getOne = createRoute({
     tags,
-    path: "/teams/{id}",
+    path: "/players/{id}",
     method: "get",
     request: {
         params: idParamsSchema,

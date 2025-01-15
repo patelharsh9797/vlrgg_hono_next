@@ -12,10 +12,10 @@ const router = createRouter()
     responses: {
       [HTTPStatusCodes.OK]: jsonContent(z.object({
         message: z.string(),
-      }), "vlr.gg api"),
+      }), "vlr.gg unofficial api"),
     },
   }), (c) => {
-    return c.json({ message: "VLR.GG API" });
+    return c.json({ message: "VLR.GG unofficial API" });
   });
 
 export default router;
