@@ -2,8 +2,8 @@ import { createRoute, z } from "@hono/zod-openapi";
 import * as HTTPStatusCodes from "stoker/http-status-codes";
 import { jsonContent } from "stoker/openapi/helpers";
 import { createErrorSchema } from "stoker/openapi/schemas";
-import { notFoundSchema } from "@/server/lib/constants";
-import { idParamsSchema, teamRequestSchema, teamResponseSchema, teamViewResponseSchema } from "@/server/lib/zod-types";
+import { notFoundSchema } from "@/lib/constants";
+import { idParamsSchema, teamRequestSchema, teamResponseSchema, teamViewResponseSchema } from "@/lib/zod-types";
 
 const tags = ["teams"];
 

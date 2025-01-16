@@ -1,7 +1,7 @@
-import { vlrgg_url } from "@/server/lib/constants";
-import type { TeamType } from "@/server/lib/types";
-import type { PlayersRequestType, TeamViewResponsetype } from "@/server/lib/zod-types";
-import { mapsWithID } from "@/server/lib/zod-types";
+import { vlrgg_url } from "@/lib/constants";
+import type { TeamType } from "@/lib/types";
+import type { PlayersRequestType, TeamViewResponsetype } from "@/lib/zod-types";
+import { mapsWithID } from "@/lib/zod-types";
 
 import axios from "axios";
 import * as cheerio from "cheerio";

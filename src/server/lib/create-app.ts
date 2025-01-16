@@ -4,7 +4,7 @@ import { defaultHook } from "stoker/openapi";
 
 // import { pinoLogger } from "@/server/middlewares/pino-logger";
 
-import type { AppBindings } from "./types";
+import type { AppBindings } from "../../lib/types";
 
 export function createRouter() {
     return new OpenAPIHono<AppBindings>({

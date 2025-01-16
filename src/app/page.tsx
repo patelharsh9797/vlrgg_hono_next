@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Teams from "./components/teams";
+import Teams from "@/components/teams";
+import { Button } from "@/components/ui/button";
 
 
 export default async function Home() {
@@ -18,7 +19,7 @@ export default async function Home() {
         
       <Teams />
       
-
+      <Button>Just A Button</Button>
         
       </main>
     </div>

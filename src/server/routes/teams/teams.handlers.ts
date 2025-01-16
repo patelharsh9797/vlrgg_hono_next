@@ -1,5 +1,5 @@
-import type { AppRouteHandler } from "@/server/lib/types";
-import { regionAliases, TeamViewResponsetype } from "@/server/lib/zod-types";
+import type { AppRouteHandler } from "@/lib/types";
+import { regionAliases, TeamViewResponsetype } from "@/lib/zod-types";
 
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";

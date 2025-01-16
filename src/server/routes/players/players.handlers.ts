@@ -1,4 +1,4 @@
-import type { AppRouteHandler } from "@/server/lib/types";
+import type { AppRouteHandler } from "@/lib/types";
 
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
